@@ -20,6 +20,7 @@
       --correct-color: #10b981;
       --wrong-color: #ef4444;
       --warning-color: #f59e0b;
+      --critical-color: #dc2626;
       --success-color: #10b981;
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
       --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -27,6 +28,7 @@
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --header-height: 70px;
       --focus-glow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      --lock-color: #ef4444;
     }
     
     /* Focus Mode (Test in progress) */
@@ -63,6 +65,16 @@
       --shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.1), 0 2px 4px -1px rgba(220, 38, 38, 0.06);
     }
     
+    /* Test Blocked Mode */
+    [data-theme="blocked"] {
+      --primary-color: #dc2626;
+      --primary-dark: #b91c1c;
+      --text-color: #7f1d1d;
+      --light-bg: #450a0a;
+      --card-bg: #7f1d1d;
+      --border-color: #fca5a5;
+    }
+    
     /* Achievement Mode (Result view) */
     [data-theme="achievement"] {
       --primary-color: #10b981;
@@ -84,6 +96,7 @@
       --border-color: #334155;
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
       --focus-glow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+      --lock-color: #f87171;
     }
     
     [data-theme="dark"][data-state="focus"] {
@@ -105,6 +118,14 @@
       --primary-dark: #ef4444;
       --light-bg: #450a0a;
       --card-bg: #7f1d1d;
+    }
+    
+    [data-theme="dark"][data-state="blocked"] {
+      --primary-color: #f87171;
+      --primary-dark: #ef4444;
+      --light-bg: #450a0a;
+      --card-bg: #7f1d1d;
+      --text-color: #fecaca;
     }
     
     [data-theme="dark"][data-state="achievement"] {
@@ -489,6 +510,57 @@
       animation: pulse 0.5s infinite;
     }
     
+    /* ========== ENVIRONMENT REMINDER PANEL ========== */
+    .environment-reminder {
+      position: fixed;
+      top: calc(var(--header-height) + 1rem);
+      right: 2rem;
+      background: var(--card-bg);
+      border-left: 4px solid var(--primary-color);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      box-shadow: var(--shadow);
+      z-index: 750;
+      max-width: 250px;
+      font-size: 0.85rem;
+      display: none;
+    }
+    
+    .environment-reminder.visible {
+      display: block;
+      animation: slideInRight 0.3s ease;
+    }
+    
+    .reminder-title {
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .reminder-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .reminder-list li {
+      margin-bottom: 0.4rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    
+    .reminder-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
     /* ========== STUDENT INFO BAR ========== */
     .student-info {
       position: sticky;
@@ -534,6 +606,40 @@
     .student-id {
       font-size: 0.9rem;
       color: var(--secondary-color);
+    }
+    
+    .warning-counter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background: var(--light-bg);
+      border: 2px solid var(--border-color);
+    }
+    
+    .warning-counter.warning-1 {
+      border-color: #fbbf24;
+      color: #92400e;
+      background: #fef3c7;
+    }
+    
+    .warning-counter.warning-2 {
+      border-color: #f59e0b;
+      color: #78350f;
+      background: #fde68a;
+    }
+    
+    .warning-counter.warning-3 {
+      border-color: #dc2626;
+      color: #7f1d1d;
+      background: #fecaca;
+      animation: pulse 1s infinite;
+    }
+    
+    .warning-counter i {
+      font-size: 1.1rem;
     }
     
     /* ========== PROGRESS SIDEBAR REDESIGN ========== */
@@ -914,6 +1020,160 @@
       overflow-y: auto;
     }
     
+    /* ========== AGREEMENT MODAL ENHANCEMENTS ========== */
+    .agreement-modal {
+      max-width: 700px;
+    }
+    
+    .modal-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .modal-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .agreement-content {
+      background: var(--light-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .agreement-content h4 {
+      color: var(--primary-color);
+      margin-top: 1.5rem;
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+    
+    .agreement-content ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .agreement-content li {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    .agreement-content li.critical {
+      color: var(--critical-color);
+      font-weight: 600;
+    }
+    
+    .agreement-content li::before {
+      content: '⚠️';
+      position: absolute;
+      left: -1.8rem;
+      top: 0;
+    }
+    
+    .agreement-content li.critical::before {
+      content: '🚫';
+    }
+    
+    .agreement-check {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--light-bg);
+      border-radius: var(--radius);
+      border: 2px solid var(--border-color);
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--border-color);
+      transition: var(--transition);
+      border-radius: 30px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: var(--transition);
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: var(--success-color);
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(30px);
+    }
+    
+    #agreeLabel {
+      font-weight: 600;
+      color: var(--text-color);
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    
+    .modal-btn {
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-size: 1rem;
+    }
+    
+    .modal-btn.primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+    }
+    
+    .modal-btn.secondary {
+      background: var(--light-bg);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+    }
+    
+    .modal-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+    
     /* ========== TOAST NOTIFICATIONS ========== */
     .toast-container {
       position: fixed;
@@ -942,27 +1202,31 @@
     
     .toast.warning {
       border-left-color: var(--warning-color);
+      border-left-width: 8px;
     }
     
     .toast.critical {
       border-left-color: var(--wrong-color);
+      border-left-width: 8px;
       animation: slideInRight 0.3s ease, shake 0.5s ease 1s, fadeOut 0.3s ease 4.7s forwards;
     }
     
-    /* ========== CHEATING DETECTION UI ========== */
+    /* ========== WARNING & BLOCKED OVERLAYS ========== */
     .focus-warning {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 3000;
       animation: fadeIn 0.3s ease;
       backdrop-filter: blur(10px);
+      padding: 2rem;
     }
     
     .focus-warning-content {
@@ -970,23 +1234,186 @@
       padding: 3rem;
       border-radius: var(--radius);
       text-align: center;
-      max-width: 500px;
+      max-width: 600px;
+      width: 100%;
       animation: scaleIn 0.5s ease;
-      border: 2px solid var(--wrong-color);
+      border: 3px solid var(--warning-color);
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+    }
+    
+    .focus-warning.warning-2 .focus-warning-content {
+      border-color: #f59e0b;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+    }
+    
+    .focus-warning.warning-3 .focus-warning-content {
+      border-color: var(--critical-color);
+      box-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
     }
     
     .focus-warning-content i {
-      font-size: 3rem;
-      color: var(--wrong-color);
+      font-size: 4rem;
+      color: var(--warning-color);
       margin-bottom: 1.5rem;
     }
     
-    .warning-count {
+    .focus-warning.warning-2 .focus-warning-content i {
+      color: #f59e0b;
+    }
+    
+    .focus-warning.warning-3 .focus-warning-content i {
+      color: var(--critical-color);
+    }
+    
+    .warning-heading {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      color: var(--wrong-color);
-      margin-top: 1rem;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+    
+    .warning-message {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .warning-counter-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--text-color);
+    }
+    
+    .warning-counter-display span {
+      background: var(--light-bg);
+      padding: 0.5rem 1.5rem;
+      border-radius: var(--radius);
+      border: 2px solid var(--border-color);
+    }
+    
+    .warning-final-message {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(220, 38, 38, 0.1);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--critical-color);
+      font-weight: 600;
+    }
+    
+    /* ========== TEST BLOCKED OVERLAY ========== */
+    .test-blocked-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 4000;
+      animation: fadeIn 0.5s ease;
+      backdrop-filter: blur(20px);
+    }
+    
+    .test-blocked-content {
+      background: var(--card-bg);
+      padding: 4rem;
+      border-radius: var(--radius);
+      text-align: center;
+      max-width: 700px;
+      width: 90%;
+      animation: scaleIn 0.6s ease;
+      border: 4px solid var(--critical-color);
+      box-shadow: 0 0 40px rgba(220, 38, 38, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .test-blocked-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(220, 38, 38, 0.05) 10px,
+        rgba(220, 38, 38, 0.05) 20px
+      );
+      pointer-events: none;
+    }
+    
+    .lock-icon {
+      font-size: 5rem;
+      color: var(--critical-color);
+      margin-bottom: 2rem;
+      animation: shake 0.5s ease infinite;
+    }
+    
+    .blocked-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: var(--critical-color);
+      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .blocked-message {
+      margin-bottom: 1.5rem;
       font-size: 1.2rem;
+      line-height: 1.6;
+      color: var(--text-color);
+    }
+    
+    .consequence-box {
+      background: rgba(220, 38, 38, 0.1);
+      border: 2px solid var(--critical-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: left;
+    }
+    
+    .consequence-box h4 {
+      color: var(--critical-color);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    
+    .consequence-box ul {
+      padding-left: 1.5rem;
+    }
+    
+    .consequence-box li {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    .consequence-box li::before {
+      content: '⛔';
+      position: absolute;
+      left: -1.5rem;
+    }
+    
+    .blocked-footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border-color);
+      color: var(--secondary-color);
+      font-size: 0.9rem;
     }
     
     /* ========== SCORE MODAL REDESIGN ========== */
@@ -1085,6 +1512,10 @@
       .mobile-timer.critical {
         animation: pulse 0.8s infinite;
       }
+      
+      .environment-reminder {
+        display: none !important;
+      }
     }
     
     @media (max-width: 480px) {
@@ -1110,6 +1541,14 @@
       .drag-option {
         width: 100%;
         text-align: center;
+      }
+      
+      .test-blocked-content {
+        padding: 2rem 1.5rem;
+      }
+      
+      .blocked-heading {
+        font-size: 1.8rem;
       }
     }
     
@@ -1179,6 +1618,12 @@
       from { opacity: 1; }
       to { opacity: 0; }
     }
+    
+    @keyframes lockPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
   </style>
 </head>
 <body>
@@ -1213,6 +1658,20 @@
     </div>
   </div>
 
+  <!-- Environment Reminder Panel -->
+  <div class="environment-reminder hidden" id="environmentReminder">
+    <div class="reminder-title">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>Test Environment Rules</span>
+    </div>
+    <ul class="reminder-list">
+      <li>Stay on this screen</li>
+      <li>Do not switch tabs</li>
+      <li>Ensure stable internet</li>
+      <li>Quiet environment required</li>
+    </ul>
+  </div>
+
   <!-- Progress Sidebar -->
   <div class="progress-sidebar hidden" id="progressSidebar">
     <!-- Progress dots will be inserted here -->
@@ -1224,6 +1683,10 @@
     <div class="student-details">
       <div class="student-name" id="studentName">John Doe</div>
       <div class="student-id" id="studentIdDisplay">STU-12345</div>
+    </div>
+    <div class="warning-counter hidden" id="warningCounter">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Warnings: <span id="warningCountDisplay">0</span>/3</span>
     </div>
   </div>
 
@@ -1250,9 +1713,41 @@
   <div class="focus-warning hidden" id="focusWarning">
     <div class="focus-warning-content">
       <i class="fas fa-exclamation-triangle"></i>
-      <h3>Please Return to Test</h3>
-      <p>Your attention is required on the test. Switching tabs or windows may be recorded.</p>
-      <div class="warning-count">Warning: <span id="warningCount">1</span>/3</div>
+      <div class="warning-heading" id="warningHeading">Attention Required</div>
+      <div class="warning-message" id="warningMessage">Your attention is required on the test. Switching tabs or windows is recorded.</div>
+      <div class="warning-counter-display">
+        <span>Warning <span id="warningNumber">1</span> of 3</span>
+      </div>
+      <div class="warning-final-message hidden" id="finalWarningMessage">
+        ⚠️ <strong>Final Warning:</strong> Next violation will block your test immediately.
+      </div>
+    </div>
+  </div>
+
+  <!-- Test Blocked Overlay -->
+  <div class="test-blocked-overlay hidden" id="testBlockedOverlay">
+    <div class="test-blocked-content">
+      <div class="lock-icon">
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="blocked-heading">Test Access Blocked</div>
+      <div class="blocked-message">
+        Your test has been terminated due to multiple policy violations.
+      </div>
+      
+      <div class="consequence-box">
+        <h4>Consequences Applied:</h4>
+        <ul>
+          <li>Score recorded as 0 (zero)</li>
+          <li>Test attempt marked as invalid</li>
+          <li>Further violations will be reported</li>
+          <li>No restart or retry available</li>
+        </ul>
+      </div>
+      
+      <div class="blocked-footer">
+        <i class="fas fa-shield-alt"></i> Activity monitoring was enabled throughout your session.
+      </div>
     </div>
   </div>
 
@@ -1261,7 +1756,7 @@
     <div class="modal agreement-modal">
       <div class="modal-header">
         <i class="fas fa-file-contract" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
-        <div class="modal-title">Test Agreement</div>
+        <div class="modal-title" id="agreementTitle">Test Agreement & Policy</div>
       </div>
       
       <div class="agreement-content" id="agreementContent">
@@ -1273,12 +1768,12 @@
           <input type="checkbox" id="agreeCheckbox">
           <span class="slider"></span>
         </label>
-        <label for="agreeCheckbox" id="agreeLabel">I have read and agree to the terms above</label>
+        <label for="agreeCheckbox" id="agreeLabel">I have read and agree to all terms and conditions</label>
       </div>
       
       <div class="modal-actions">
         <button class="modal-btn primary" id="agreeBtn">I Agree - Start Test</button>
-        <button class="modal-btn secondary" id="disagreeBtn">Cancel</button>
+        <button class="modal-btn secondary" id="disagreeBtn">Cancel & Exit</button>
       </div>
     </div>
   </div>
@@ -1401,7 +1896,7 @@
       <div id="loginError"></div>
       
       <div class="login-footer">
-        <i class="fas fa-shield-alt"></i> Secure Test Environment
+        <i class="fas fa-shield-alt"></i> Secure Test Environment • Activity Monitoring Enabled
       </div>
     </form>
   </div>
@@ -1427,31 +1922,37 @@
   let focusWarningCount = 0;
   let lastInteractionTime = Date.now();
   let tabSwitchCount = 0;
+  let isTestBlocked = false;
   
   // ========== LANGUAGE TRANSLATIONS ==========
   const translations = {
     english: {
       agreement: {
-        title: "Test Agreement",
-        welcome: "Welcome to the IELTS-Style Speaking Test. Before proceeding, please read and agree to the following terms:",
-        rulesTitle: "Test Rules:",
+        title: "Test Agreement & Policy",
+        welcome: "Welcome to the IELTS-Style Speaking Test. Before proceeding, you must read and agree to the following terms and conditions. This test is monitored and violations have immediate consequences.",
+        rulesTitle: "Test Duration & Rules:",
         rules: [
-          "This test must be completed in one session - you cannot pause and return later",
-          "All answers must be your own work - no external assistance is permitted",
-          "You must complete the test within the allotted time",
-          "Only one attempt is allowed per student"
+          "Duration: 60 minutes strict time limit",
+          "One attempt only - cannot be paused or restarted",
+          "Auto-scoring applied immediately after submission",
+          "Activity monitoring is enabled throughout the test",
+          "Maximum 3 warnings for policy violations",
+          "Continued violations result in: Test blocked, Score = 0, No retry option"
         ],
-        integrityTitle: "Academic Integrity:",
-        integrity: "By taking this test, you agree that all responses are your own original work. Any violation of academic integrity may result in disciplinary action.",
-        techTitle: "Technical Requirements:",
+        integrityTitle: "Academic Integrity & Monitoring:",
+        integrity: "Activity monitoring is enabled. All suspicious behavior is recorded and affects results immediately. By taking this test, you agree that all responses are your own original work.",
+        techTitle: "Technical & Environment Requirements:",
         tech: [
-          "Stable internet connection required",
+          "Stable internet connection required - disconnections may affect scoring",
           "Modern browser recommended (Chrome, Firefox, Edge)",
-          "Headphones recommended for audio questions"
+          "Headphones required for audio questions",
+          "Quiet environment - background noise may affect recording quality",
+          "No tab switching allowed - stay on this screen",
+          "No external assistance permitted"
         ],
-        agreeLabel: "I have read and agree to the terms above",
+        agreeLabel: "I have read and agree to all terms and conditions",
         agreeBtn: "I Agree - Start Test",
-        cancelBtn: "Cancel"
+        cancelBtn: "Cancel & Exit"
       },
       restriction: {
         title: "Access Restricted",
@@ -1464,35 +1965,53 @@
         loginBtn: "Login"
       },
       warnings: {
-        focusWarning: "Please Return to Test",
-        focusMessage: "Your attention is required on the test. Switching tabs or windows may be recorded.",
+        focusWarning: "Attention Required",
+        focusMessage1: "Your attention is required on the test. Switching tabs or windows is recorded. This is warning 1 of 3.",
+        focusMessage2: "Second violation detected. Suspicious behavior is recorded. Next violation will block your test. This is warning 2 of 3.",
+        focusMessage3: "Final warning! Next violation will block your test immediately. Score will be recorded as 0.",
         timeWarning15: "15 minutes remaining",
         timeWarning5: "5 minutes remaining - Please review your answers",
-        timeWarning1: "1 minute remaining - Time is almost up!"
+        timeWarning1: "1 minute remaining - Time is almost up!",
+        environmentReminder: "Stay on this screen • Do not switch tabs • Ensure stable internet • Quiet environment required"
+      },
+      blocked: {
+        title: "Test Access Blocked",
+        message: "Your test has been terminated due to multiple policy violations.",
+        consequences: "Consequences Applied:",
+        consequence1: "Score recorded as 0 (zero)",
+        consequence2: "Test attempt marked as invalid",
+        consequence3: "Further violations will be reported",
+        consequence4: "No restart or retry available",
+        footer: "Activity monitoring was enabled throughout your session."
       }
     },
     khmer: {
       agreement: {
-        title: "កិច្ចព្រមព្រៀងការប្រឡង",
-        welcome: "សូមស្វាគមន៍មកកាន់ការប្រឡងសំដែងរបៀប IELTS។ មុននឹងបន្ត សូមអាន និងយល់ព្រមតាមលក្ខខណ្ឌខាងក្រោម៖",
-        rulesTitle: "ច្បាប់ការប្រឡង៖",
+        title: "កិច្ចព្រមព្រៀង និងគោលការណ៍ការប្រឡង",
+        welcome: "សូមស្វាគមន៍មកកាន់ការប្រឡងសំដែងរបៀប IELTS។ មុននឹងបន្ត អ្នកត្រូវតែអាន និងយល់ព្រមតាមលក្ខខណ្ឌ និងល័ក្ខខ័ណ្ឌខាងក្រោម។ ការប្រឡងនេះត្រូវបានត្រួតពិនិត្យ ហើយការរំលោភបំពាននឹងមានផលវិបាកភ្លាមៗ។",
+        rulesTitle: "រយៈពេល និងច្បាប់ការប្រឡង៖",
         rules: [
-          "ត្រូវតែបំពេញការប្រឡងនេះក្នុងវគ្គតែមួយ - អ្នកមិនអាចផ្អាក ហើយត្រឡប់មកវិញបានទេ",
-          "ចម្លើយទាំងអស់ត្រូវតែជាស្នាដៃផ្ទាល់ខ្លួន - មិនអនុញ្ញាតឱ្យមានការជំនួយខាងក្រៅទេ",
-          "ត្រូវតែបំពេញការប្រឡងក្នុងពេលដែលបានកំណត់",
-          "អនុញ្ញាតឱ្យព្យាយាមតែមួយគត់ក្នុងមួយសិស្ស"
+          "រយៈពេល៖ កំណត់ពេលយ៉ាងតឹងរឹង ៦០ នាទី",
+          "ព្យាយាមតែមួយគត់ - មិនអាចផ្អាក ឬចាប់ផ្តើមឡើងវិញបានទេ",
+          "ពិន្ទុស្វ័យប្រវត្តិត្រូវបានអនុវត្តភ្លាមៗបន្ទាប់ពីការដាក់ស្នើ",
+          "ការត្រួតពិនិត្យសកម្មភាពត្រូវបានបើកដំណើរការពេញមួយការប្រឡង",
+          "ការព្រមានអតិបរមា ៣ ដងសម្រាប់ការរំលោភបំពានគោលការណ៍",
+          "ការរំលោភបំពានបន្តនឹងនាំឱ្យមាន៖ ការប្រឡងត្រូវបានរារាំង ពិន្ទុ = ០ គ្មានជម្រើសព្យាយាមម្តងទៀត"
         ],
-        integrityTitle: "សុច្ចរិតផ្នែកអប់រំ៖",
-        integrity: "ក្នុងការប្រឡងនេះ អ្នកយល់ព្រមថា ចម្លើយទាំងអស់គឺជាស្នាដៃដើមរបស់អ្នកផ្ទាល់។ ការរំលោភលើសុច្ចរិតផ្នែកអប់រំអាចនាំឱ្យមានសកម្មភាពវិន័យ។",
-        techTitle: "តម្រូវការបច្ចេកទេស៖",
+        integrityTitle: "សុច្ចរិតផ្នែកអប់រំ និងការត្រួតពិនិត្យ៖",
+        integrity: "ការត្រួតពិនិត្យសកម្មភាពត្រូវបានបើកដំណើរការ។ ឥរិយាបទសង្ស័យទាំងអស់ត្រូវបានកត់ត្រា និងប៉ះពាល់ដល់លទ្ធផលភ្លាមៗ។ ក្នុងការប្រឡងនេះ អ្នកយល់ព្រមថាចម្លើយទាំងអស់គឺជាស្នាដៃដើមរបស់អ្នកផ្ទាល់។",
+        techTitle: "តម្រូវការបច្ចេកទេស និងបរិស្ថាន៖",
         tech: [
-          "ត្រូវការការតភ្ជាប់អ៊ីនធឺណិតស្ថិរភាព",
+          "ត្រូវការការតភ្ជាប់អ៊ីនធឺណិតស្ថិរភាព - ការបែកដំណើរអ៊ីនធឺណិតអាចប៉ះពាល់ដល់ពិន្ទុ",
           "ផ្ដល់អនុសាសន៍ឱ្យប្រើកម្មវិធីរុករកទំនើប (Chrome, Firefox, Edge)",
-          "ផ្ដល់អនុសាសន៍ឱ្យប្រើកាសសំឡេងសម្រាប់សំណួរអូឌីយ៉ូ"
+          "ត្រូវការកាសសំឡេងសម្រាប់សំណួរអូឌីយ៉ូ",
+          "បរិស្ថានស្ងាត់ - សម្លេងផ្ទៃខាងក្រោយអាចប៉ះពាល់ដល់គុណភាពការថត",
+          "មិនអនុញ្ញាតឱ្យផ្លាស់ប្តូរផ្ទាំង - សូមនៅលើអេក្រង់នេះ",
+          "មិនអនុញ្ញាតឱ្យមានការជំនួយខាងក្រៅទេ"
         ],
-        agreeLabel: "ខ្ញុំបានអាន និងយល់ព្រមតាមលក្ខខណ្ឌខាងលើ",
+        agreeLabel: "ខ្ញុំបានអាន និងយល់ព្រមតាមលក្ខខណ្ឌ និងល័ក្ខខ័ណ្ឌទាំងអស់",
         agreeBtn: "ខ្ញុំយល់ព្រម - ចាប់ផ្ដើមការប្រឡង",
-        cancelBtn: "បោះបង់"
+        cancelBtn: "បោះបង់ និងចាកចេញ"
       },
       restriction: {
         title: "ការចូលប្រើត្រូវបានដាក់កំហិត",
@@ -1505,11 +2024,24 @@
         loginBtn: "ចូល"
       },
       warnings: {
-        focusWarning: "សូមត្រឡប់ទៅការប្រឡងវិញ",
-        focusMessage: "តម្រូវឱ្យមានការយកចិត្តទុកដាក់លើការប្រឡង។ ការផ្លាស់ប្តូរផ្ទាំង ឬបង្អួចអាចត្រូវបានកត់ត្រា។",
+        focusWarning: "តម្រូវឱ្យមានការយកចិត្តទុកដាក់",
+        focusMessage1: "តម្រូវឱ្យមានការយកចិត្តទុកដាក់លើការប្រឡង។ ការផ្លាស់ប្តូរផ្ទាំង ឬបង្អួចត្រូវបានកត់ត្រា។ នេះជាការព្រមានលើកទី ១ ក្នុងចំណោម ៣។",
+        focusMessage2: "បានរកឃើញការរំលោភបំពានលើកទីពីរ។ ឥរិយាបទសង្ស័យត្រូវបានកត់ត្រា។ ការរំលោភបំពានបន្ទាប់នឹងរារាំងការប្រឡងរបស់អ្នក។ នេះជាការព្រមានលើកទី ២ ក្នុងចំណោម ៣។",
+        focusMessage3: "ការព្រមានចុងក្រោយ! ការរំលោភបំពានបន្ទាប់នឹងរារាំងការប្រឡងរបស់អ្នកភ្លាមៗ។ ពិន្ទុនឹងត្រូវបានកត់ត្រាជា ០។",
         timeWarning15: "នៅសល់ ១៥ នាទី",
         timeWarning5: "នៅសល់ ៥ នាទី - សូមពិនិត្យចម្លើយរបស់អ្នកឡើងវិញ",
-        timeWarning1: "នៅសល់ ១ នាទី - ពេលវេលាជិតអស់ហើយ!"
+        timeWarning1: "នៅសល់ ១ នាទី - ពេលវេលាជិតអស់ហើយ!",
+        environmentReminder: "សូមនៅលើអេក្រង់នេះ • កុំផ្លាស់ប្តូរផ្ទាំង • ធានាបាននូវអ៊ីនធឺណិតស្ថិរភាព • តម្រូវឱ្យមានបរិស្ថានស្ងាត់"
+      },
+      blocked: {
+        title: "ការចូលប្រើការប្រឡងត្រូវបានរារាំង",
+        message: "ការប្រឡងរបស់អ្នកត្រូវបានបញ្ចប់ដោយសារការរំលោភបំពានគោលការណ៍ច្រើនលើក។",
+        consequences: "ផលវិបាកដែលបានអនុវត្ត៖",
+        consequence1: "ពិន្ទុត្រូវបានកត់ត្រាជា ០ (សូន្យ)",
+        consequence2: "ការព្យាយាមប្រឡងត្រូវបានសម្គាល់ថាមិនត្រឹមត្រូវ",
+        consequence3: "ការរំលោភបំពានបន្ថែមទៀតនឹងត្រូវបានរាយការណ៍",
+        consequence4: "គ្មានជម្រើសចាប់ផ្តើមឡើងវិញ ឬព្យាយាមម្តងទៀតទេ",
+        footer: "ការត្រួតពិនិត្យសកម្មភាពត្រូវបានបើកដំណើរការពេញមួយសម័យរបស់អ្នក។"
       }
     }
   };
@@ -1540,7 +2072,10 @@
     // Remove all state attributes
     root.removeAttribute('data-state');
     
-    if (timeLeft <= 0) {
+    if (isTestBlocked) {
+      // Test blocked state
+      root.setAttribute('data-state', 'blocked');
+    } else if (timeLeft <= 0) {
       // Test finished - achievement mode
       root.setAttribute('data-state', 'achievement');
     } else if (timeLeft <= 300) { // 5 minutes
@@ -1575,16 +2110,19 @@
     document.getElementById('studentId').placeholder = t.login.studentId;
     document.getElementById('password').placeholder = t.login.password;
     document.getElementById('loginBtn').textContent = t.login.loginBtn;
+    document.querySelector('.login-footer').innerHTML = `<i class="fas fa-shield-alt"></i> Secure Test Environment • Activity Monitoring Enabled`;
     
     // Update agreement modal
-    document.querySelector('.agreement-modal .modal-title').textContent = t.agreement.title;
+    document.getElementById('agreementTitle').textContent = t.agreement.title;
     
     const agreementContent = `
       <p>${t.agreement.welcome}</p>
       
       <h4>${t.agreement.rulesTitle}</h4>
       <ul>
-        ${t.agreement.rules.map(rule => `<li>${rule}</li>`).join('')}
+        ${t.agreement.rules.map((rule, index) => `
+          <li class="${index >= 4 ? 'critical' : ''}">${rule}</li>
+        `).join('')}
       </ul>
       
       <h4>${t.agreement.integrityTitle}</h4>
@@ -1592,8 +2130,14 @@
       
       <h4>${t.agreement.techTitle}</h4>
       <ul>
-        ${t.agreement.tech.map(item => `<li>${item}</li>`).join('')}
+        ${t.agreement.tech.map((item, index) => `
+          <li class="${index >= 3 ? 'critical' : ''}">${item}</li>
+        `).join('')}
       </ul>
+      
+      <div style="margin-top: 2rem; padding: 1rem; background: rgba(220, 38, 38, 0.1); border-radius: var(--radius); border-left: 4px solid var(--critical-color);">
+        <strong>⚠️ Important:</strong> Violations are recorded automatically. After 3 warnings, your test will be blocked and scored as 0.
+      </div>
     `;
     document.getElementById('agreementContent').innerHTML = agreementContent;
     document.getElementById('agreeLabel').textContent = t.agreement.agreeLabel;
@@ -1602,6 +2146,17 @@
     
     // Update restriction modal
     document.querySelector('.restriction-modal .modal-title').textContent = t.restriction.title;
+    
+    // Update environment reminder
+    const reminderList = document.querySelector('#environmentReminder .reminder-list');
+    if (reminderList) {
+      reminderList.innerHTML = `
+        <li>${t.warnings.environmentReminder.split(' • ')[0]}</li>
+        <li>${t.warnings.environmentReminder.split(' • ')[1]}</li>
+        <li>${t.warnings.environmentReminder.split(' • ')[2]}</li>
+        <li>${t.warnings.environmentReminder.split(' • ')[3]}</li>
+      `;
+    }
     
     // Add khmer class to body for font styling
     if (currentLanguage === 'khmer') {
@@ -1639,26 +2194,38 @@
   function initCheatingDetection() {
     // Track visibility changes (tab switching)
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden && !document.getElementById('scoreModal').classList.contains('hidden')) {
+      if (document.hidden && !document.getElementById('scoreModal').classList.contains('hidden') && !isTestBlocked) {
         // User switched tabs/windows
         tabSwitchCount++;
         lastInteractionTime = Date.now();
         
+        // Show environment reminder
+        document.getElementById('environmentReminder').classList.add('visible');
+        
         if (tabSwitchCount >= 3) {
-          showFocusWarning();
+          showFocusWarning(3);
+          setTimeout(() => {
+            blockTest();
+          }, 5000);
+        } else if (tabSwitchCount >= 2) {
+          showFocusWarning(2);
         } else if (tabSwitchCount >= 1) {
+          showFocusWarning(1);
           // Subtle warning
           document.title = "⚠️ Please return to test";
           setTimeout(() => {
             document.title = "IELTS Speaking Test";
           }, 2000);
         }
+        
+        // Update warning counter display
+        updateWarningCounter();
       }
     });
     
     // Track mouse leaving window
     document.addEventListener('mouseleave', (e) => {
-      if (e.clientY <= 0 && !document.getElementById('scoreModal').classList.contains('hidden')) {
+      if (e.clientY <= 0 && !document.getElementById('scoreModal').classList.contains('hidden') && !isTestBlocked) {
         // Mouse left the window
         lastInteractionTime = Date.now();
       }
@@ -1670,17 +2237,98 @@
     document.addEventListener('click', () => lastInteractionTime = Date.now());
   }
   
-  function showFocusWarning() {
-    if (document.getElementById('focusWarning').classList.contains('hidden')) {
-      focusWarningCount++;
-      document.getElementById('warningCount').textContent = focusWarningCount;
-      document.getElementById('focusWarning').classList.remove('hidden');
-      
-      // Auto-hide after 5 seconds
-      setTimeout(() => {
-        document.getElementById('focusWarning').classList.add('hidden');
-      }, 5000);
+  function showFocusWarning(warningNumber) {
+    if (isTestBlocked) return;
+    
+    const t = translations[currentLanguage];
+    const warningOverlay = document.getElementById('focusWarning');
+    const warningHeading = document.getElementById('warningHeading');
+    const warningMessage = document.getElementById('warningMessage');
+    const warningNumberSpan = document.getElementById('warningNumber');
+    const finalWarningMessage = document.getElementById('finalWarningMessage');
+    
+    // Update content based on warning number
+    warningNumberSpan.textContent = warningNumber;
+    warningHeading.textContent = t.warnings.focusWarning;
+    
+    if (warningNumber === 1) {
+      warningMessage.textContent = t.warnings.focusMessage1;
+      warningOverlay.className = 'focus-warning warning-1';
+      finalWarningMessage.classList.add('hidden');
+    } else if (warningNumber === 2) {
+      warningMessage.textContent = t.warnings.focusMessage2;
+      warningOverlay.className = 'focus-warning warning-2';
+      finalWarningMessage.classList.add('hidden');
+    } else if (warningNumber === 3) {
+      warningMessage.textContent = t.warnings.focusMessage3;
+      warningOverlay.className = 'focus-warning warning-3';
+      finalWarningMessage.classList.remove('hidden');
     }
+    
+    // Show the overlay
+    warningOverlay.classList.remove('hidden');
+    
+    // Auto-hide after appropriate time
+    const hideTime = warningNumber === 3 ? 8000 : 5000;
+    setTimeout(() => {
+      warningOverlay.classList.add('hidden');
+    }, hideTime);
+  }
+  
+  function updateWarningCounter() {
+    const warningCounter = document.getElementById('warningCounter');
+    const warningCountDisplay = document.getElementById('warningCountDisplay');
+    
+    if (tabSwitchCount > 0) {
+      warningCounter.classList.remove('hidden');
+      warningCountDisplay.textContent = tabSwitchCount;
+      
+      // Update counter styling based on warning level
+      warningCounter.className = 'warning-counter';
+      if (tabSwitchCount === 1) {
+        warningCounter.classList.add('warning-1');
+      } else if (tabSwitchCount === 2) {
+        warningCounter.classList.add('warning-2');
+      } else if (tabSwitchCount >= 3) {
+        warningCounter.classList.add('warning-3');
+      }
+    } else {
+      warningCounter.classList.add('hidden');
+    }
+  }
+  
+  function blockTest() {
+    isTestBlocked = true;
+    
+    // Update theme to blocked state
+    updateThemeForState();
+    
+    // Hide other overlays
+    document.getElementById('focusWarning').classList.add('hidden');
+    
+    // Show blocked overlay
+    const t = translations[currentLanguage];
+    const blockedOverlay = document.getElementById('testBlockedOverlay');
+    
+    // Update blocked overlay content
+    document.querySelector('.blocked-heading').textContent = t.blocked.title;
+    document.querySelector('.blocked-message').textContent = t.blocked.message;
+    document.querySelector('.consequence-box h4').textContent = t.blocked.consequences;
+    document.querySelectorAll('.consequence-box li')[0].textContent = t.blocked.consequence1;
+    document.querySelectorAll('.consequence-box li')[1].textContent = t.blocked.consequence2;
+    document.querySelectorAll('.consequence-box li')[2].textContent = t.blocked.consequence3;
+    document.querySelectorAll('.consequence-box li')[3].textContent = t.blocked.consequence4;
+    document.querySelector('.blocked-footer').innerHTML = `<i class="fas fa-shield-alt"></i> ${t.blocked.footer}`;
+    
+    blockedOverlay.classList.remove('hidden');
+    
+    // Disable all interactions
+    document.querySelectorAll('button, input, select, textarea').forEach(element => {
+      element.disabled = true;
+    });
+    
+    // Stop timer
+    clearInterval(testTimer);
   }
   
   // ========== TIME REMINDER SYSTEM ==========
@@ -1762,16 +2410,18 @@
         document.getElementById('agreementOverlay').classList.add('hidden');
         startTest();
       } else {
-        showToast("Please agree to the terms to continue", 'warning');
+        showToast("You must agree to all terms and conditions to continue", 'warning');
       }
     });
     
     document.getElementById('disagreeBtn').addEventListener('click', function() {
       document.getElementById('agreementOverlay').classList.add('hidden');
+      document.getElementById('loginContainer').classList.remove('hidden');
     });
     
     document.getElementById('restrictionOkBtn').addEventListener('click', function() {
       document.getElementById('restrictionOverlay').classList.add('hidden');
+      document.getElementById('loginContainer').classList.remove('hidden');
     });
     
     document.getElementById('screenshotBtn').addEventListener('click', captureResult);
@@ -1876,9 +2526,10 @@
   }
   
   function startTest() {
-    // Show student info and submit button
+    // Show student info, submit button, and environment reminder
     document.getElementById('studentInfo').classList.remove('hidden');
     document.getElementById('submitBtn').classList.remove('hidden');
+    document.getElementById('environmentReminder').classList.add('visible');
     
     // Record start time
     startTime = new Date();
@@ -1898,6 +2549,11 @@
   function startTimer() {
     clearInterval(testTimer);
     testTimer = setInterval(() => {
+      if (isTestBlocked) {
+        clearInterval(testTimer);
+        return;
+      }
+      
       timeLeft--;
       updateTimerDisplay();
       updateThemeForState();
@@ -2176,6 +2832,8 @@
   }
   
   function submitTest() {
+    if (isTestBlocked) return;
+    
     clearInterval(testTimer);
     
     // Update theme to achievement mode
